@@ -29,3 +29,5 @@ After installation, run the script by executing it in the terminal using:
 ```bash
 bash main.sh
 ```
+
+![Example of Usage in a GIF](docs/example-create.gif)
