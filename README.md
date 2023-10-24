@@ -16,9 +16,10 @@ Você pode saber mais sobre o Piping Server [aqui](https://github.com/nwtgck/pip
 
 🇧🇷 Certifique-se de ter instalado as seguintes dependências:
 
--   `curl`
--   `yq`
--   `uuidgen`
+- `curl`
+- `yq`
+- `uuidgen`
+- `pbcopy`
 
 🇺🇸 If not install them by using your package manager (Pacman, APT, Yum, etc).
 
