@@ -8,6 +8,9 @@
 ## Setup
 set -euo pipefail
 
+## Setup Variable
+DIR_OF_THAT_FILE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 ## Functions
 function log(){
     echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $1"
@@ -116,17 +119,17 @@ if ! type pbcopy > /dev/null 2>&1; then
 fi
 
 # Check if config.yaml exists
-if [ ! -e config.yaml ]; then
+if [ ! -e $DIR_OF_THAT_FILE/config.yaml ]; then
     setup
 fi
 
 # Begin
-VERSION=$(cat version)
+VERSION=$(cat $DIR_OF_THAT_FILE/version)
 log "Starting a Secret Sharing for Piping Server v$VERSION"
 
 # Read config.yaml
 log "Reading config.yaml"
-piping_server_url=$(yq '.piping_server_url' config.yaml)
+piping_server_url=$(yq '.piping_server_url' $DIR_OF_THAT_FILE/config.yaml)
 log_success "piping_server_url: $piping_server_url"
 
 # Test if the server is a piping server
