@@ -89,10 +89,27 @@ function generate_secret_on_server(){
     log "curl -s $piping_server_url/$RANDOM_UUID"
     log "You can share this link with anyone, the person have 60 seconds to see the secret"
     log "The secret will be available on your local clipboard"
-    echo $secret | pbcopy
+    # Use pbcopy on MacOS
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo $secret | pbcopy
+    fi
+    # Use xclip on Linux
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo $secret | xclip -selection clipboard
+    fi
 }
 
 ## Verify Dependencies
+
+# Verify OS Linux or MacOS
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    log_success "OS: Linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    log_success "OS: MacOS"
+else
+    log_error "OS not supported"
+    exit 1
+fi
 
 # Check if "curl" exists
 if ! type curl > /dev/null 2>&1; then
@@ -112,9 +129,15 @@ if ! type uuidgen > /dev/null 2>&1; then
     exit 1
 fi
 
-# Check if "pbcopy" exists
-if ! type pbcopy > /dev/null 2>&1; then
+# Check if "pbcopy" exists (Only MacOS)
+if [[ "$OSTYPE" == "darwin"* ]] && ! type pbcopy > /dev/null 2>&1; then
     log_error "pbcopy command is required. Please install pbcopy."
+    exit 1
+fi
+
+# Check if xclip exists (Only Linux)
+if [[ "$OSTYPE" == "linux-gnu"* ]] && ! type xclip > /dev/null 2>&1; then
+    log_error "xclip command is required. Please install xclip."
     exit 1
 fi
 
