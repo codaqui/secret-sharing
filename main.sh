@@ -162,6 +162,7 @@ test_is_a_piping_server $piping_server_url
 log "Select an option:"
 log "1) Share a Secret"
 log "2) Generate and Share a Secret"
+log "3) Create alias to use this script with: secret-sharing"
 log "0) Exit"
 read option
 
@@ -214,6 +215,9 @@ elif [ "$option" = "2" ]; then
     
     # Generate a secret on server
     generate_secret_on_server $piping_server_url $secret
+elif [ "$option" = "3" ]; then
+    log "Creating alias to use this script with: secret-sharing"
+    log "alias secret-sharing='bash $DIR_OF_THAT_FILE/main.sh'"
 else
     log "Bye!"
     exit 0
