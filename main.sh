@@ -10,6 +10,7 @@ set -euo pipefail
 
 ## Setup Variable
 DIR_OF_THAT_FILE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CONFIG_FILE_LOCATION="$DIR_OF_THAT_FILE/config.yaml"
 
 ## Functions
 function log(){
@@ -33,7 +34,7 @@ function setup() {
     if [ -z "$piping_server_url" ]; then
         piping_server_url="https://ping.enderson.dev"
     fi
-    echo "piping_server_url: $piping_server_url" > config.yaml
+    echo "piping_server_url: $piping_server_url" > $CONFIG_FILE_LOCATION
     log_success "config.yaml created"
 }
 
@@ -142,7 +143,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]] && ! type xclip > /dev/null 2>&1; then
 fi
 
 # Check if config.yaml exists
-if [ ! -e $DIR_OF_THAT_FILE/config.yaml ]; then
+if [ ! -e $CONFIG_FILE_LOCATION ]; then
     setup
 fi
 
