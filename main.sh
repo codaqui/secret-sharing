@@ -34,14 +34,19 @@ function setup() {
     if [ -z "$piping_server_url" ]; then
         piping_server_url="https://ping.enderson.dev"
     fi
-    echo "piping_server_url: $piping_server_url" > $CONFIG_FILE_LOCATION
+    cat > $CONFIG_FILE_LOCATION << EOF
+piping_server_url: $piping_server_url
+fallback_servers:
+  - https://ppng.io
+  - https://piping.glitch.me
+EOF
     log_success "config.yaml created"
 }
 
 function test_is_a_piping_server(){
     server_to_test=$1
     # Check if the server is a piping server
-    log "Check if the server is a piping server"
+    log "Check if the server is a piping server: $server_to_test"
     RANDOM_UUID=$(uuidgen)
     RANDOM_TEXT="Hello, World! $RANDOM_UUID"
     # Execute a POST with timeout 10 seconds in background
@@ -49,10 +54,36 @@ function test_is_a_piping_server(){
     curl -s -X POST -d "$RANDOM_TEXT" -m 10 "$server_to_test/$RANDOM_UUID" > /dev/null 2>&1 & \
         if curl -s -m 10 "$server_to_test/$RANDOM_UUID" | grep "$RANDOM_TEXT" > /dev/null 2>&1; then
             log_success "The server is a piping server"
+            return 0
         else
-            log_error "The server is not a piping server"
-            exit 1
+            log_error "The server is not a piping server or is not available"
+            return 1
         fi
+}
+
+function find_working_server(){
+    primary_server=$1
+    
+    # Try primary server first
+    if test_is_a_piping_server "$primary_server"; then
+        echo "$primary_server"
+        return 0
+    fi
+    
+    # Try fallback servers
+    log "Primary server not available, trying fallback servers..."
+    fallback_servers=$(yq '.fallback_servers[]' $CONFIG_FILE_LOCATION)
+    
+    while IFS= read -r fallback_server; do
+        if test_is_a_piping_server "$fallback_server"; then
+            log_success "Using fallback server: $fallback_server"
+            echo "$fallback_server"
+            return 0
+        fi
+    done <<< "$fallback_servers"
+    
+    log_error "No working piping server found!"
+    exit 1
 }
 
 function generate_secret(){
@@ -154,10 +185,11 @@ log "Starting a Secret Sharing for Piping Server v$VERSION"
 # Read config.yaml
 log "Reading config.yaml"
 piping_server_url=$(yq '.piping_server_url' $DIR_OF_THAT_FILE/config.yaml)
-log_success "piping_server_url: $piping_server_url"
+log_success "primary piping_server_url: $piping_server_url"
 
-# Test if the server is a piping server
-test_is_a_piping_server $piping_server_url
+# Find a working server (primary or fallback)
+working_server=$(find_working_server $piping_server_url)
+log_success "Using piping server: $working_server"
 
 # Create a Menu
 log "Select an option:"
@@ -178,7 +210,7 @@ if [ "$option" = "1" ]; then
     fi
     # Make a post with the secret and a timeout of 60 seconds in background
     log "Making a secret"
-    generate_secret_on_server $piping_server_url $secret
+    generate_secret_on_server $working_server $secret
     exit 0
 elif [ "$option" = "2" ]; then
     RANDOM_UUID=$(uuidgen)
@@ -215,7 +247,7 @@ elif [ "$option" = "2" ]; then
     secret=$(generate_secret $secret_length $secret_type)
     
     # Generate a secret on server
-    generate_secret_on_server $piping_server_url $secret
+    generate_secret_on_server $working_server $secret
 elif [ "$option" = "3" ]; then
     log "Creating alias to use this script with: secret-sharing"
     log "alias secret-sharing='bash $DIR_OF_THAT_FILE/main.sh'"
