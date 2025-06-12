@@ -46,17 +46,14 @@ EOF
 function test_is_a_piping_server(){
     server_to_test=$1
     # Check if the server is a piping server
-    log "Check if the server is a piping server: $server_to_test"
     RANDOM_UUID=$(uuidgen)
     RANDOM_TEXT="Hello, World! $RANDOM_UUID"
     # Execute a POST with timeout 10 seconds in background
     # The GET response should be the same as the POST
     curl -s -X POST -d "$RANDOM_TEXT" -m 10 "$server_to_test/$RANDOM_UUID" > /dev/null 2>&1 & \
         if curl -s -m 10 "$server_to_test/$RANDOM_UUID" | grep "$RANDOM_TEXT" > /dev/null 2>&1; then
-            log_success "The server is a piping server"
             return 0
         else
-            log_error "The server is not a piping server or is not available"
             return 1
         fi
 }
@@ -65,24 +62,24 @@ function find_working_server(){
     primary_server=$1
     
     # Try primary server first
-    if test_is_a_piping_server "$primary_server"; then
+    if test_is_a_piping_server "$primary_server" >/dev/null 2>&1; then
         echo "$primary_server"
         return 0
     fi
     
     # Try fallback servers
-    log "Primary server not available, trying fallback servers..."
+    log "Primary server not available, trying fallback servers..." >&2
     fallback_servers=$(yq '.fallback_servers[]' $CONFIG_FILE_LOCATION)
     
     while IFS= read -r fallback_server; do
-        if test_is_a_piping_server "$fallback_server"; then
-            log_success "Using fallback server: $fallback_server"
+        if test_is_a_piping_server "$fallback_server" >/dev/null 2>&1; then
+            log_success "Using fallback server: $fallback_server" >&2
             echo "$fallback_server"
             return 0
         fi
     done <<< "$fallback_servers"
     
-    log_error "No working piping server found!"
+    log_error "No working piping server found!" >&2
     exit 1
 }
 
