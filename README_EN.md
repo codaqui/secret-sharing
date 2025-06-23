@@ -49,3 +49,5 @@ Here are some ideas for future project improvements:
 
 - 🌍 **Create an automatic README generation mechanism for other languages** - Automate translation and documentation synchronization
 - 📦 **Create a more sophisticated installation mechanism** - Develop an installer that automatically configures all dependencies
+- ⚡ **Compilation and installation via binary** - Create compiled binaries for different platforms to facilitate distribution and installation
+- 🔄 **Multi-language support in menus and not just documentation** - Implement multilingual interface in the script/application itself
