@@ -32,3 +32,20 @@ bash main.sh
 ```
 
 ![Exemplo de uso em GIF](docs/example-create.gif)
+
+## Contribuindo
+
+Todos são bem-vindos para contribuir com este projeto! Se você tem ideias, encontrou bugs ou quer melhorar algo, siga estes passos:
+
+1. **Issues**: Abra uma issue para reportar bugs, sugerir melhorias ou discutir novas funcionalidades
+2. **Pull Requests**: Faça um fork do repositório, crie suas mudanças e abra um PR
+3. **Padrões**: Mantenha o código limpo e siga as convenções existentes no projeto
+
+Sua contribuição é muito valorizada! 🚀
+
+## Sonhos 💭
+
+Aqui estão algumas ideias para futuras melhorias do projeto:
+
+- 🌍 **Criar um mecanismo de geração automática de READMEs em outras linguagens** - Automatizar a tradução e sincronização de documentação
+- 📦 **Criar um mecanismo de instalação mais sofisticado** - Desenvolver um instalador que configure automaticamente todas as dependências

@@ -32,3 +32,20 @@ bash main.sh
 ```
 
 ![Example of Usage in a GIF](docs/example-create.gif)
+
+## Contributing
+
+Everyone is welcome to contribute to this project! If you have ideas, found bugs, or want to improve something, follow these steps:
+
+1. **Issues**: Open an issue to report bugs, suggest improvements, or discuss new features
+2. **Pull Requests**: Fork the repository, make your changes, and open a PR
+3. **Standards**: Keep the code clean and follow existing project conventions
+
+Your contribution is highly valued! 🚀
+
+## Dreams 💭
+
+Here are some ideas for future project improvements:
+
+- 🌍 **Create an automatic README generation mechanism for other languages** - Automate translation and documentation synchronization
+- 📦 **Create a more sophisticated installation mechanism** - Develop an installer that automatically configures all dependencies
