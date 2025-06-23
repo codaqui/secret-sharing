@@ -1,45 +1,34 @@
-## Secret Sharing
+# Secret Sharing
 
-# Piping Server Secret Sharing Script
+[![🇧🇷 Português](https://img.shields.io/badge/🇧🇷-Português-green)](README.md) [![🇺🇸 English](https://img.shields.io/badge/🇺🇸-English-blue)](README_EN.md)
 
-🇺🇸 This script is a utility for creating and sharing secrets through Piping Server. The created secret is temporary and can be only accessed once.
+## Script de Compartilhamento de Segredos via Piping Server
 
-You can know more about Piping Server [here](https://github.com/nwtgck/piping-server/tree/develop)
-
-🇧🇷 Este script é uma utilidade para criar e compartilhar segredos através do Piping Server. O segredo criado é temporário e só pode ser acessado uma vez.
+Este script é uma utilidade para criar e compartilhar segredos através do Piping Server. O segredo criado é temporário e só pode ser acessado uma vez.
 
 Você pode saber mais sobre o Piping Server [aqui](https://github.com/nwtgck/piping-server/tree/develop)
 
-### Prerequisites
+### Pré-requisitos
 
-🇺🇸 Make sure you have installed the following dependencies:
-
-🇧🇷 Certifique-se de ter instalado as seguintes dependências:
+Certifique-se de ter instalado as seguintes dependências:
 
 - `curl`
 - `yq`
 - `uuidgen`
 - `pbcopy`
 
-🇺🇸 If not install them by using your package manager (Pacman, APT, Yum, etc).
-
-You will need a Piping Server, you can use ours:
-
-🇧🇷 Se não, instale-os usando seu gerenciador de pacotes (Pacman, APT, Yum, etc).
+Se não tiver, instale-os usando seu gerenciador de pacotes (Pacman, APT, Yum, etc).
 
 Você precisará de um Piping Server, você pode usar o nosso:
 
 - `https://ping.enderson.dev`
 
+### Uso
 
-### Usage
-
-🇺🇸 After installation, run the script by executing it in the terminal using:
-
-🇧🇷 Após a instalação, execute o script executando-o no terminal usando:
+Após a instalação, execute o script no terminal usando:
 
 ```bash
 bash main.sh
 ```
 
-![Example of Usage in a GIF](docs/example-create.gif)
+![Exemplo de uso em GIF](docs/example-create.gif)
