@@ -29,10 +29,10 @@ function setup() {
     # Create config.yaml
     log "Create config.yaml"
     log "Whats is your piping server URL? (Press enter to use default)"
-    log "Default: https://ping.enderson.dev"
+    log "Default: https://ping.codaqui.dev"
     read piping_server_url
     if [ -z "$piping_server_url" ]; then
-        piping_server_url="https://ping.enderson.dev"
+        piping_server_url="https://ping.codaqui.dev"
     fi
     cat > $CONFIG_FILE_LOCATION << EOF
 piping_server_url: $piping_server_url
